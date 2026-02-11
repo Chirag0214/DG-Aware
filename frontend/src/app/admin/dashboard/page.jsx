@@ -16,7 +16,9 @@ export default function AdminDashboard() {
   useEffect(() => {
     async function fetchStats() {
       try {
-        const res = await axios.get('http://localhost:5001/admin/stats');
+      const res = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:5001'}/admin/stats`
+      );
         const data = res.data;
         setStats([
           { label: 'Users', count: data.users, link: '/admin/manage-user' },

@@ -11,7 +11,9 @@ const ManageExpert = () => {
 
     const fetchExpert = async () => {
         setLoading(true);
-        const res = await axios.get('http://localhost:5001/expert/getall')
+      const res = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:5001'}/expert/getall`
+      )
 
 
         setexpertList(res.data);
@@ -20,7 +22,9 @@ const ManageExpert = () => {
 
 
     const deleteExpert = async (expertId) => {
-        const res = await axios.delete(`http://localhost:5001/expert/delete/${expertId}`);
+      const res = await axios.delete(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:5001'}/expert/delete/${expertId}`
+      );
         if (res.status === 200) {
             fetchExpert();
             toast.success('Expert Deleted Successfully');

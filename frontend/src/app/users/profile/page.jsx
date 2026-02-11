@@ -24,7 +24,7 @@ const Profile = () => {
                 const decoded = jwtDecode(token);
                 const userId = decoded._id;
                 const response = await axios.get(
-                    `http://localhost:5001/user/getbyid/${userId}`,
+                    `${process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:5001'}/user/getbyid/${userId}`,
                     {
                         headers: {
                             Authorization: `Bearer ${token}`,
@@ -68,11 +68,15 @@ const Profile = () => {
             const token = localStorage.getItem("token");
             const decoded = jwtDecode(token);
             const userId = decoded._id;
-            await axios.put(`http://localhost:5001/user/update/${userId}`, values, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            });
+            await axios.put(
+                `${process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:5001'}/user/update/${userId}`,
+                values,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
             setUser({ ...user, ...values });
             setIsEditing(false);
         } catch (error) {

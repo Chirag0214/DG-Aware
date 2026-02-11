@@ -12,7 +12,9 @@ const ManageArticle = () => {
 
     const fetchArticle = async () => {
         setLoading(true);
-        const res = await axios.get('http://localhost:5001/article/getall')
+      const res = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:5001'}/article/getall`
+      )
 
 
         setarticleList(res.data);
@@ -21,7 +23,9 @@ const ManageArticle = () => {
 
 
     const deleteArticle = async (articleId) => {
-        const res = await axios.delete(`http://localhost:5001/article/delete/${articleId}`);
+      const res = await axios.delete(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:5001'}/article/delete/${articleId}`
+      );
         if (res.status === 200) {
             fetchArticle();
             toast.success('Article Deleted Successfully');

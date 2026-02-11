@@ -17,8 +17,10 @@ const UpdateNews = () => {
     const CLOUDINARY_UPLOAD_PRESET = 'your_upload_preset';
 
     const fetchNews = async () => {
-        try {
-            const res = await axios.get(`http://localhost:5001/news/getbyid/${id}`);
+      try {
+            const res = await axios.get(
+              `${process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:5001'}/news/getbyid/${id}`
+            );
             console.log(res.data);
             setUserData(res.data);
         } catch (error) {
@@ -62,7 +64,10 @@ const UpdateNews = () => {
                 image: imageUrl
             };
 
-            const res = await axios.put(`http://localhost:5001/news/update/${id}`, updateData);
+          const res = await axios.put(
+            `${process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:5001'}/news/update/${id}`,
+            updateData
+          );
 
             if (res.status === 200) {
                 toast.success('News Updated Successfully');

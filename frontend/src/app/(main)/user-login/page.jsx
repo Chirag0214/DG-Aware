@@ -17,11 +17,15 @@ const Login = () => {
     onSubmit: (values) => {
       console.log(values);
 
-      axios.post(`http://localhost:5001/user/authenticate`, values, {
-        headers: {
-          'Content-Type': 'application/json'
+      axios.post(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:5001'}/user/authenticate`,
+        values,
+        {
+          headers: {
+            'Content-Type': 'application/json'
+          }
         }
-      })
+      )
         .then((result) => {
           toast.success('Login Successful')
           localStorage.setItem('token', result.data.token);

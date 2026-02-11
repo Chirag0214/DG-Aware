@@ -11,7 +11,9 @@ const ManageUser = () => {
 
     const fetchUser = async () => {
         setLoading(true);
-        const res = await axios.get('http://localhost:5001/user/getall')
+      const res = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:5001'}/user/getall`
+      )
 
 
         setuserList(res.data);
@@ -20,7 +22,9 @@ const ManageUser = () => {
 
 
     const deleteUser = async (userId) => {
-        const res = await axios.delete(`http://localhost:5001/user/delete/${userId}`);
+      const res = await axios.delete(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:5001'}/user/delete/${userId}`
+      );
         if (res.status === 200) {
             fetchUser();
             toast.success('User Deleted Successfully');

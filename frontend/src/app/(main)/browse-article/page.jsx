@@ -2,6 +2,9 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 
+const API_BASE_URL =
+  process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:5001';
+
 const ViewArticles = () => {
   const [articles, setArticles] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -10,8 +13,7 @@ const ViewArticles = () => {
   useEffect(() => {
     const fetchArticles = async () => {
       try {
-        // Change the URL below to match your backend server address and port
-        const res = await fetch('http://localhost:5001/article/getall');
+        const res = await fetch(`${API_BASE_URL}/article/getall`);
         if (!res.ok) throw new Error('Failed to fetch articles');
         const data = await res.json();
         setArticles(data);

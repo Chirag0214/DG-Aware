@@ -17,11 +17,15 @@ const adminLogin = () => {
     onSubmit: (values) => {
       console.log(values);
 
-      axios.post(`http://localhost:5001/admin/authenticate`, values, {
-        headers: {
-          'Content-Type': 'application/json'
+      axios.post(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:5001'}/admin/authenticate`,
+        values,
+        {
+          headers: {
+            'Content-Type': 'application/json'
+          }
         }
-      })
+      )
       .then((result) => {
         toast.success('Login Successfull')
         router.push('/admin/dashboard');

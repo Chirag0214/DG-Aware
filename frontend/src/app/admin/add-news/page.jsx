@@ -47,17 +47,20 @@ const AddNews = () => {
             throw new Error('Image upload failed');
           }
         }
-        const response = await fetch('http://localhost:5001/news/add', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            title: values.title,
-            content: values.content,
-            image: uploadedImageUrl,
-          }),
-        });
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:5001'}/news/add`,
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              title: values.title,
+              content: values.content,
+              image: uploadedImageUrl,
+            }),
+          }
+        );
         if (!response.ok) {
           throw new Error('Failed to add news');
         }

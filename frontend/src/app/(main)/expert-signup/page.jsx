@@ -30,7 +30,10 @@ const expertSignup = () => {
     },
     onSubmit: (values, { resetForm }) => {
       const { name, email, password } = values;
-      axios.post(`http://localhost:5001/expert/add`, { name, email, password })
+      axios.post(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:5001'}/expert/add`,
+        { name, email, password }
+      )
         .then((result) => {
           toast.success("Expert Created Successfully");
           resetForm();

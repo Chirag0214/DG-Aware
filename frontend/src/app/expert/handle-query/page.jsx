@@ -1,7 +1,9 @@
 "use client";
 import React, { useEffect, useState } from "react";
 
-const API_URL = "http://localhost:5001/query"; // Adjust if needed
+const API_BASE_URL =
+  process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:5001";
+const API_URL = `${API_BASE_URL}/query`; // Adjust if needed
 
 const HandleQueryPage = () => {
   const [queries, setQueries] = useState([]);

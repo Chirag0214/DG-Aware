@@ -16,8 +16,10 @@ const UpdateArticle = () => {
     const CLOUDINARY_UPLOAD_PRESET = 'your_upload_preset';
 
     const fetchArticle = async () => {
-        try {
-            const res = await axios.get(`http://localhost:5001/article/getbyid/${id}`);
+      try {
+            const res = await axios.get(
+              `${process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:5001'}/article/getbyid/${id}`
+            );
             setArticleData(res.data);
         } catch (error) {
             toast.error('Error fetching article');
@@ -54,7 +56,10 @@ const UpdateArticle = () => {
                 content: values.content,
                 image: imageUrl
             };
-            const res = await axios.put(`http://localhost:5001/article/update/${id}` , updateData);
+          const res = await axios.put(
+            `${process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:5001'}/article/update/${id}`,
+            updateData
+          );
             if (res.status === 200) {
                 toast.success('Article Updated Successfully');
                 router.push('/expert/manage-article');

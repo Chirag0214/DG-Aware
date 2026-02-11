@@ -31,11 +31,15 @@ const router = useRouter();
       console.log(values);
       const { name, email, password } = values;
 
-      axios.post(`http://localhost:5001/user/add`, { name, email, password }, {
+      axios.post(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:5001'}/user/add`,
+        { name, email, password },
+        {
         headers: {
           'Content-Type': 'application/json'
         }
-      })
+        }
+      )
         .then((result) => {
           toast.success("User Created Successfully");
           resetForm();

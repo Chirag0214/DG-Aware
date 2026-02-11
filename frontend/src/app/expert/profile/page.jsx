@@ -23,14 +23,14 @@ const Profile = () => {
         }
         const decoded = jwtDecode(token);
         const expertId = decoded._id;
-        const response = await axios.get(
-         `http://localhost:5001/expert/getbyid/${expertId}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:5001'}/expert/getbyid/${expertId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
         if (!response.data) {
           // Handle null/undefined data
@@ -71,11 +71,15 @@ const Profile = () => {
       const token = localStorage.getItem("token");
       const decoded = jwtDecode(token);
       const expertId = decoded._id;
-      await axios.put(`http://localhost:5001/expert/update/${expertId}`, values, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      await axios.put(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:5001'}/expert/update/${expertId}`,
+        values,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       setExpert({ ...expert, ...values });
       setIsEditing(false);
     } catch (error) {

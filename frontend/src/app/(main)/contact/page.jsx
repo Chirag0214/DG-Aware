@@ -1,6 +1,9 @@
 'use client';
 import React, { useState } from 'react';
 
+const API_BASE_URL =
+  process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:5001';
+
 export default function ContactPage() {
   const [form, setForm] = useState({ name: '', email: '', message: '' });
   const [submitted, setSubmitted] = useState(false);
@@ -16,11 +19,14 @@ export default function ContactPage() {
     setLoading(true);
     setError('');
     try {
-      const res = await fetch('http://localhost:5001/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form),
-      });
+      const res = await fetch(
+        `${API_BASE_URL}/api/contact`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(form),
+        }
+      );
       if (!res.ok) throw new Error('Failed to send message');
       setSubmitted(true);
       setForm({ name: '', email: '', message: '' });
