@@ -1,0 +1,168 @@
+'use client';
+import axios from 'axios';
+import { useFormik } from 'formik';
+import { useRouter } from 'next/navigation';
+import React from 'react'
+import toast from 'react-hot-toast';
+import * as Yup from 'yup';
+
+const SignupSchema = Yup.object().shape({
+  name: Yup.string().min(2, 'Too Short').max(50, 'Too Long').required('Name is required'),
+  email: Yup.string().email('Invalid email').required('Email is required'),
+  password: Yup.string()
+    .min(6, 'Password must be at least 6 characters')
+    .required('Password is required'),
+  confirmPassword: Yup.string()
+    .required('Confirm Password is required')
+    .oneOf([Yup.ref('password')], 'Passwords must match'),
+})
+
+const expertSignup = () => {
+
+  const router = useRouter();
+
+  const signupForm = useFormik({
+    initialValues: {
+      name: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+    },
+    onSubmit: (values, { resetForm }) => {
+      const { name, email, password } = values;
+      axios.post(`http://localhost:5001/expert/add`, { name, email, password })
+        .then((result) => {
+          toast.success("Expert Created Successfully");
+          resetForm();
+          router.push('/expert-login')
+        }).catch((err) => {
+          console.log(err);
+          toast.error("Expert Creation Failed");
+        });
+    },
+    validationSchema: SignupSchema,
+  })
+  return (
+    <div suppressHydrationWarning>
+      <div className="bg-black flex h-screen items-center justify-center px-4 sm:px-6 lg:px-8" style={{color:'#111'}} suppressHydrationWarning>
+        <div className="w-full max-w-md space-y-8">
+          <div className="bg-white shadow-md rounded-md p-6">
+            <img
+              className="mx-auto h-12 w-auto"
+              src="https://www.svgrepo.com/show/499664/expert-happy.svg"
+              alt=""
+            />
+            <h2 className="my-3 text-center text-3xl font-bold tracking-tight text-gray-900" style={{color:'#111'}}>
+              Sign up for an account
+            </h2>
+            <form className="space-y-6" method="POST" onSubmit={signupForm.handleSubmit}>
+              <div>
+                <label
+                  htmlFor="name"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Name
+                </label>
+                <div className="mt-1 relative">
+                  <input
+                    name="name"
+                    type="text"
+                    id='name'
+                    onChange={signupForm.handleChange}
+                    value={signupForm.values.name}
+                    placeholder="Enter your name"                className="px-2 py-3 mt-1 block w-full rounded-md border border-black border-solid shadow-sm focus:border-sky-500 focus:outline-none focus:ring-sky-500 sm:text-sm text-black"
+                    style={{color:'#111', background:'#fff'}}
+                  />
+                </div>
+                {signupForm.touched.name && signupForm.errors.name && (
+                  <div className="text-red-500 text-xs mt-1">{signupForm.errors.name}</div>
+                )}
+              </div>
+              <div>
+                <label
+                  htmlFor="password"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Email
+                </label>
+                <div className="mt-1">
+                  <input
+                    name="email"
+                    type="email"
+                    autoComplete="email-address"
+                    onChange={signupForm.handleChange}
+                    value={signupForm.values.email}
+                    placeholder="Enter your email"
+                    className="px-2 py-3 mt-1 block w-full rounded-md border border-black border-solid shadow-sm focus:border-sky-500 focus:outline-none focus:ring-sky-500 sm:text-sm text-black"
+                    style={{color:'#111', background:'#fff'}}
+                  />
+                </div>
+                {signupForm.touched.email && signupForm.errors.email && (
+                  <div className="text-red-500 text-xs mt-1">{signupForm.errors.email}</div>
+                )}
+              </div>
+              <div>
+                <label
+                  htmlFor="password"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Password
+                </label>
+                <div className="mt-1">
+                  <input
+                    name="password"
+                    type="password"
+                    autoComplete="password"
+                    onChange={signupForm.handleChange}
+                    value={signupForm.values.password}
+                    placeholder="Enter your password"
+                    className="px-2 py-3 mt-1 block w-full rounded-md border border-black border-solid shadow-sm focus:border-sky-500 focus:outline-none focus:ring-sky-500 sm:text-sm text-black"
+                    style={{color:'#111', background:'#fff'}}
+                  />
+                </div>
+                {signupForm.touched.password && signupForm.errors.password && (
+                  <div className="text-red-500 text-xs mt-1">{signupForm.errors.password}</div>
+                )}
+              </div>
+              <div>
+                <label
+                  htmlFor="password"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Confirm Password
+                </label>
+                <div className="mt-1">
+                  <input
+                    name="confirmPassword"
+                    type="password"
+                    autoComplete="confirm-password"
+                    onChange={signupForm.handleChange}
+                    value={signupForm.values.confirmPassword}
+                    placeholder="Confirm your password"
+                    className="px-2 py-3 mt-1 block w-full rounded-md border border-black border-solid shadow-sm focus:border-sky-500 focus:outline-none focus:ring-sky-500 sm:text-sm text-black"
+                    style={{color:'#111', background:'#fff'}}
+                  />
+                </div>
+                {signupForm.touched.confirmPassword && signupForm.errors.confirmPassword && (
+                  <div className="text-red-500 text-xs mt-1">{signupForm.errors.confirmPassword}</div>
+                )}
+              </div>
+              <div>
+                <button
+                  type="submit"
+                  className="flex w-full justify-center rounded-md border border-transparent bg-sky-400 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-opacity-75 focus:outline-none focus:ring-2 focus:ring-sky-400 focus:ring-offset-2"
+                >
+                  Register Account
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+  )
+}
+
+export default expertSignup;

@@ -1,0 +1,35 @@
+@import "tailwindcss";
+
+:root {
+  --background: #000000; /* Changed to black */
+  --foreground: #ededed; /* Light text for contrast */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+/* Remove dark mode override so background stays black always */
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+  font-weight: bold;
+}
+
+a {
+  
+  text-decoration: none;
+  transition: color 0.2s;
+}
+a:hover {
+  color: #2563eb;
+}
